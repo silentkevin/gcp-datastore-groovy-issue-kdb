@@ -8,6 +8,8 @@ import com.google.cloud.datastore.QueryResults
 import com.google.cloud.datastore.StructuredQuery
 import com.silvertree.gcpdatastoregroovyissuekdb.Constants
 import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
+import groovy.transform.TypeCheckingMode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component
 class GroovyDAO {
     @Autowired Datastore datastore
 
+    // uncommenting the line below fixes the tests
+//    @TypeChecked(value = TypeCheckingMode.SKIP)
     List<Entity> getAllMyEntities() {
         EntityQuery.Builder queryBuilder = (EntityQuery.Builder) Query.newEntityQueryBuilder()
                 .setKind(Constants.DATASTORE_KIND_MY_ENTITY)
