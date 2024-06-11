@@ -4,6 +4,7 @@ import com.google.cloud.datastore.Datastore
 import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.EntityQuery
 import com.google.cloud.datastore.Query
+import com.google.cloud.datastore.QueryResults
 import com.google.cloud.datastore.StructuredQuery
 import com.silvertree.gcpdatastoregroovyissuekdb.Constants
 import groovy.transform.CompileStatic
@@ -20,7 +21,12 @@ class GroovyDAO {
                 .setKind(Constants.DATASTORE_KIND_MY_ENTITY)
                 .setOrderBy(StructuredQuery.OrderBy.desc("stringField1"))
         Query<Entity> query = queryBuilder.build()
-        List<Entity> entities = datastore.run(query).toList()
-        return entities
+
+        List<Entity> ret = new ArrayList<>()
+        QueryResults<Entity> results = datastore.run(query)
+        while (results.hasNext()) {
+            ret.add(results.next())
+        }
+        return ret
     }
 }
